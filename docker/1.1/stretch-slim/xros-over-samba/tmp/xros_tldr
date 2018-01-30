@@ -1,0 +1,16 @@
+#!/bin/sh
+
+echo '# xros-over-sshfs'
+echo ''
+echo '  By mounting `'"//${IPADDR%% }${CONTAINERS_PATH}"'` on docker host,'
+echo '  You will be able to access'
+echo '      running docker containers file system easyily.'
+echo ''
+echo '- Run new container and mount it:'
+echo ''
+echo '  $ sudo mount -t cifs '"//${IPADDR%% }${CONTAINERS_PATH}"' /path/to/containers -o rw,noperm,username='"${XROS_USER}"',password=*****'
+echo '    (default '"${XROS_USER}"' password is "xrosfs")'
+echo '  $ sudo docker run --rm -it -d --name hal9000 alpine'
+echo '  $ cat /path/to/containers/hal9000/etc/os-release'
+echo '  $ sudo docker run --rm -it -d --name sal9000 debian'
+echo '  $ cat /path/to/containers/sal9000/etc/os-release'
