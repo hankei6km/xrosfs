@@ -3,7 +3,7 @@
 XrosFS は稼働中の Docker コンテナのファイルシステムを FUSE 経由でマウントするツールです.
 
 * コンテナ側へ追加のエージェント等をインストールする必要あはりません. `docker exec` が許可されていていれば利用できます.
-* XrosFS と autofs、sshfs を組み合わせた自動マウント用のコンテナイメージ(xros-over-sshfs)も用意してあります.
+* XrosFS と autofs、sshfs を組み合わせることで、他のコンテナを自動マウントするコンテナ([xros-over-sshfs](https://hub.docker.com/r/hankei6km/xros-over-sshfs/))も用意してあります.
 
 
 ## Requirements

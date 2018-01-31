@@ -3,7 +3,7 @@
 Mount a Running Docker Container File Sytem via FUSE.
 
 * No requirement to install additional agents to container side. it's only required to have permitted to `docker exec` command.
-* Container that automounting running containers by XrosFS with autofs and sshfs is released.
+* Docker container [xros-over-sshfs](https://hub.docker.com/r/hankei6km/xros-over-sshfs/) that mount other containers file system automatically  by XrosFS with autofs and sshfs is released.
 
 
 ## Requirements
