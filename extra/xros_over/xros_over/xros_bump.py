@@ -83,14 +83,14 @@ def _probe_path_to_container(loop, bump_path):
 
 class BumpContainer:
     def __init__(self, export_path,
-                 bump_at_container_awaken=False,
+                 bump_at_container_awakens=False,
                  timeout=30,
                  loop=asyncio.get_event_loop(),
                  logger=init_logger()):
         self._loop = loop
         self._logger = logger
         self._export_path = os.path.normpath(export_path)
-        self._bump_at_container_awaken = bump_at_container_awaken
+        self._bump_at_container_awakens = bump_at_container_awakens
         # self._debounce = DebounceFuture(loop)
         self._persistent_stat = {}
         self._timeout = timeout
@@ -135,7 +135,7 @@ class BumpContainer:
             bump_path = self._bump_path(event)
             _debug = {}
             if event['Directive'] == 'add':
-                if self._bump_at_container_awaken:
+                if self._bump_at_container_awakens:
                     _debug = await self._add_path_to_container(bump_path)
                     ret['_debug'] = _debug
                 else:
@@ -251,14 +251,14 @@ class AsyncDirector:
 
 async def async_loop(loop,
                      containers_path,
-                     bump_at_container_awaken,
+                     bump_at_container_awakens,
                      logger=init_logger()):
     ai = AsyncDirector(
         docker.from_env(),
     )
     bump = BumpContainer(
         containers_path,
-        bump_at_container_awaken,
+        bump_at_container_awakens,
         timeout=30,
         loop=loop,
         logger=logger
@@ -337,15 +337,15 @@ def main():
     logger.info('start: containers_path={containers_path}'.format(
         containers_path=containers_path
     ))
-    bump_at_container_awaken = args.bump_at_container_awaken == 1
-    if bump_at_container_awaken:
+    bump_at_container_awakens = args.bump_at_container_awakens == 1
+    if bump_at_container_awakens:
         logger.info('start: bump at container awkens = enabled')
     loop = asyncio.get_event_loop()
     wait = asyncio.wait([
         async_loop(
             loop,
             containers_path,
-            bump_at_container_awaken,
+            bump_at_container_awakens,
             logger=logger
         )
     ])

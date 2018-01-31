@@ -46,7 +46,7 @@ class TestDebounceFuture():
         event_del = get_event('del', name)
         with BumpContainer(
                 export_path,
-                bump_at_container_awaken=True,
+                bump_at_container_awakens=True,
                 loop=event_loop
         ) as bc:
             with mock.patch(
@@ -85,7 +85,7 @@ class TestDebounceFuture():
         event = get_event('add', name)
         with BumpContainer(
                 export_path,
-                bump_at_container_awaken=False,
+                bump_at_container_awakens=False,
                 loop=event_loop
         ) as bc:
             with mock.patch(
@@ -111,7 +111,7 @@ class TestDebounceFuture():
         event = get_event('add', name)
         with BumpContainer(
                 export_path,
-                bump_at_container_awaken=True,
+                bump_at_container_awakens=True,
                 loop=event_loop
         ) as bc:
             with mock.patch(
@@ -138,7 +138,7 @@ class TestDebounceFuture():
         with BumpContainer(
                 export_path,
                 timeout=0.1,
-                bump_at_container_awaken=True,
+                bump_at_container_awakens=True,
                 loop=event_loop
         ) as bc:
             with mock.patch(
