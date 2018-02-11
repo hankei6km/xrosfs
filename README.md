@@ -40,6 +40,7 @@ Pass `user@container1:/` to xrosfs, if you want to connect as other users.
 
 ## Known Issues
 
+* Can't access to file that had `\n` included filename.
 * Bad response time in operates.
 * Some operations methods are not full implemented yet(`flush(fsync)` `utimens` etc.).
 

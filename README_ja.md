@@ -37,6 +37,7 @@ $ xrosfs container1:/ ~/mnt
 
 ## Known Issues
 
+* 改行を含むファイル名を扱えません.
 * 動作が超絶遅いです.
 * いくつかの操作メソッドは完全には実装されていません(`flush(fsync)` `utimens` 等).
 
