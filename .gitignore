@@ -2,6 +2,7 @@ bench_test/assets/
 bench_test/mirror/
 bench_test/mnt/
 docker/*/*/bench/setup-bench*.sh
+.pytest_cache/
 
 # https://github.com/github/gitignore/blob/master/Python.gitignore
 # https://github.com/github/gitignore/blob/master/LICENSE
