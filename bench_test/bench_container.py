@@ -21,18 +21,19 @@ class BaseEnv:
         ret = ''
 
         try:
-            rec = ''
             with open('/proc/self/cgroup', 'r') as fd:
                 rec = fd.readline()
+                while len(rec) > 0 and ret == '':
+                    fld = rec.split(':')
+                    if len(fld) == 3:
+                        container_id = fld[2].split('/')
+                        if len(container_id) == 3 and \
+                                container_id[1] == 'docker':
+                            ret = container_id[2].rstrip()
+                    rec = fd.readline()
 
-            if len(rec) > 0:
-                fld = rec.split(':')
-                if len(fld) == 3:
-                    container_id = fld[2].split('/')
-                    if len(container_id) == 3 and container_id[1] == 'docker':
-                        ret = container_id[2].rstrip()
         except BaseException:
-            None
+            ret = ''
 
         return ret
 
