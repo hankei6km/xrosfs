@@ -22,7 +22,7 @@ def main():
     parser.add_argument('bench_container_image',
                         type=str,
                         nargs='?',
-                        default='xrosfs-bench:1.1-stretch-slim',
+                        default='hankei6km/xrosfs-bench:latest',
                         metavar='bench container image',
                         help='Docker Image of bench container')
     parser.add_argument('--pytest-opts',
