@@ -193,8 +193,16 @@ class ConShell():
         return ret
 
     def _open_stream(self):
-        self.sh_stream = self.stream_exec(
+        exec_result = self.stream_exec(
             ' '.join((self._shell_path, self._shell_args)))
+        # if hasattr(exec_result, 'output'):
+        # https://stackoverflow.com/questions/5008828/convert-a-python-type-object-to-a-string
+        if type(exec_result).__name__ is 'ExecResult':
+            # docker sdk for python 3.0.x return tuple of (exit_code, output).
+            # ExecResult#output works as return value of sdk2.x.
+            self.sh_stream = exec_result.output
+        else:
+            self.sh_stream = exec_result
 
     def _switch_to_support_shell(self):
         item = self._get_shell_item()
