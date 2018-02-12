@@ -1,0 +1,17 @@
+sudo: required
+services:
+  - docker
+# before_install:
+#   - bash bench_test/before_isntall.sh
+
+language: python
+python:
+  - "3.5"
+install:
+  - pip install flake8
+script:
+  - python setup.py test
+  - flake8
+notifications:
+  email:
+    - hankei6km+travis@gmail.com
