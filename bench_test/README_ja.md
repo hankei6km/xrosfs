@@ -6,37 +6,39 @@ sshfs と xrofs でマウントしたファイルシステム上で実際のフ�
 
 ## テスト環境の準備
 
-ベンチテスト用の Docker コンテナが必要になるため、プロジェクト内の `/docker` ディレクトリで以下のコマンドを実行し、イメージを作成.
-
-```bash
-# ./build-bench-img.sh xrosfs-bench 1.1/stretch-slim
-```
+sshfs と xrosfs の接続先サーバーは Docker コンテナとして実行されるため、
+後述の `bootstrap.sh ` が Docker コンテナの起動等を行える環境が必要となる.
 
 また、sshfs と xrosfs 実行環境が必要となるため、それぞれを事前にインストール.
 (xrosfs ライブラリは `bootstrap.sh` 内からインストールされるが、FUSE 関連は手動でインストールする必要がある)
 
 
-
-## テストを実行
+## テストの実行
 
 通常のベンチテストを実行する場合は、プロジェクト内の `/bench_test` ディレクトリで以下のコマンドを実行.
 
-```bash
+```
 # ./bootstrap.sh
 ```
 
 pytest のオプションを指定.
 
-```bash
+```
 # ./bootstrap.sh --pytest-opts '-x'
 ```
 
-コンテナのイメージを指定(事前にイメージを作成しておく必要がある).
+コンテナのイメージを指定.
 
-```bash
-# ./bootstrap.sh xrosfs-bench:1.1-alpine
 ```
+# ./bootstrap.sh hankei6km/xrosfs-bench:0.1.0-centos
+```
+
+指定可能なイメージは
+[hankei6km/xrosfs-bench Tags](https://hub.docker.com/r/hankei6km/xrosfs-bench/tags/)
+から確認できる.
+
 
 ## その他
 
-現在のバージョンでは、busybox(alpine 等) を元にしたイメージで実行するとテストは失敗する.
+* 現在のバージョンでは、busybox(alpine 等) を元にしたイメージで実行するとテストは失敗する.
+* 接続先サーバーのコンテナ起動用に pull されたイメージは手動で削除する必要がある.
