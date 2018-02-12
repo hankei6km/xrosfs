@@ -4,6 +4,7 @@
 # Licensed under the MIT License. See LICENSE.txt in the project root.
 
 import os
+import sys
 import argparse
 import shutil
 import time
@@ -14,6 +15,7 @@ from bench_container import Bench
 
 
 def main():
+    exit_code = 0
     # Parse args
     parser = argparse.ArgumentParser(
         description='Test actually file operations on FUSE in bench continer',
@@ -94,9 +96,11 @@ def main():
 
         # Run test
         tests_path = os.path.join(script_path, 'tests')
-        pytest.main(pytest_opts + [tests_path])
+        exit_code = pytest.main(pytest_opts + [tests_path])
         # TODO: Support to run and watch tests with pytest_watch
+
+    return exit_code
 
 
 if __name__ == '__main__':  # pragma: no cover.
-    main()
+    sys.exit(main())
