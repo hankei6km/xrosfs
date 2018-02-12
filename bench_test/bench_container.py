@@ -40,10 +40,13 @@ class BaseEnv:
     def get_connected_network(self):
         ret = ''
 
-        container_info = self.client.api.inspect_container(self.container_id)
-        networks = tuple(container_info['NetworkSettings']['Networks'].keys())
-        if len(networks) == 1:
-            ret = networks[0]
+        if self.is_in_container:
+            container_info = \
+                self.client.api.inspect_container(self.container_id)
+            networks = \
+                tuple(container_info['NetworkSettings']['Networks'].keys())
+            if len(networks) == 1:
+                ret = networks[0]
 
         return ret
 
