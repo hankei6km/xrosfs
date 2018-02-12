@@ -76,8 +76,8 @@ class TestSymlink():
             os.path.islink(test_dir_name_xrosfs_path)
         assert os.path.isdir(test_dir_name_sshfs_path) == \
             os.path.isdir(test_dir_name_xrosfs_path)
-        ls_sshfs = os.listdir(test_dir_name_sshfs_path)
-        ls_xrosfs = os.listdir(test_dir_name_xrosfs_path)
+        ls_sshfs = sorted(os.listdir(test_dir_name_sshfs_path))
+        ls_xrosfs = sorted(os.listdir(test_dir_name_xrosfs_path))
         assert len(ls_sshfs) > 0
         assert ls_sshfs == ls_xrosfs
 
@@ -93,8 +93,8 @@ class TestSymlink():
         assert os.symlink(test_dir_target_rel_path,
                           test_dir_name_xrosfs_path) is None
         os.chdir(save_cwd)
-        ls_sshfs = os.listdir(test_dir_name_sshfs_path)
-        ls_xrosfs = os.listdir(test_dir_name_xrosfs_path)
+        ls_sshfs = sorted(os.listdir(test_dir_name_sshfs_path))
+        ls_xrosfs = sorted(os.listdir(test_dir_name_xrosfs_path))
         assert len(ls_sshfs) > 0
         assert ls_sshfs == ls_xrosfs
 

@@ -15,10 +15,12 @@ class TestReaddir():
         no_exist_file_path = \
             os.path.join(mnt_xrosfs_path, *self.no_exist_file)
 
-        ls_sshfs = os.listdir(
-            os.path.join(mnt_sshfs_path, 'readdir'))
-        ls_xrosfs = os.listdir(os.path.join(
-            mnt_xrosfs_path, 'readdir'))
+        ls_sshfs = sorted(
+            os.listdir(os.path.join(mnt_sshfs_path, 'readdir'))
+        )
+        ls_xrosfs = sorted(
+            os.listdir(os.path.join(mnt_xrosfs_path, 'readdir'))
+        )
         assert ls_sshfs == ls_xrosfs
 
         with pytest.raises(OSError) as excinfo:
