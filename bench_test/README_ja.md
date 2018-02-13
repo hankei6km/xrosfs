@@ -42,3 +42,5 @@ pytest のオプションを指定.
 
 * 現在のバージョンでは、busybox(alpine 等) を元にしたイメージで実行するとテストは失敗する.
 * 接続先サーバーのコンテナ起動用に pull されたイメージは手動で削除する必要がある.
+* travis-ci 上では sshfs のリネーム処理において、権限関連のエラーが発生する(`mv path/to/foo/file /path/to/bar/file` のような処理でエラーとなる).
+暫定的に、環境変数 `XROSFS_BENCH_AVOID_RNAME_DIR=1` をセットしてから実行すると回避するようになっている.

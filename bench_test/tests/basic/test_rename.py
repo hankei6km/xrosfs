@@ -65,17 +65,34 @@ class TestRename():
         assert os.access(test_dir_old_xrosfs_file_path, os.F_OK)
         assert os.access(test_dir_new_xrosfs_file_path, os.F_OK) is False
 
-        assert os.rename(os.path.dirname(test_dir_old_sshfs_file_path),
-                         os.path.dirname(test_dir_new_sshfs_file_path)
-                         ) is None
-        assert os.rename(os.path.dirname(test_dir_old_xrosfs_file_path),
-                         os.path.dirname(test_dir_new_xrosfs_file_path)
-                         ) is None
+        sshfs_rename_permit_err = False
+        try:
+            assert os.rename(os.path.dirname(test_dir_old_sshfs_file_path),
+                             os.path.dirname(test_dir_new_sshfs_file_path)
+                             ) is None
 
-        assert os.access(test_dir_old_sshfs_file_path, os.F_OK) is False
-        assert os.access(test_dir_new_sshfs_file_path, os.F_OK)
-        assert os.access(test_dir_old_xrosfs_file_path, os.F_OK) is False
-        assert os.access(test_dir_new_xrosfs_file_path, os.F_OK)
+        except OSError as exc:
+            sshfs_rename_permit_err = True
+            # `mv /path/to/foo/file /path/to/bar/file` to be permit error
+            # on travis-ci.
+            # local environment(ubuntu trusty container on arch linux)
+            # had permits above case. why??
+            # therefore, avoid rename dir test at permit error occrured
+            sshfs_rename_permit_err = True
+            if 'XROSFS_BENCH_AVOID_RNAME_DIR' in os.environ:
+                None
+            else:
+                raise exc
+
+        if not sshfs_rename_permit_err:
+            assert os.rename(os.path.dirname(test_dir_old_xrosfs_file_path),
+                             os.path.dirname(test_dir_new_xrosfs_file_path)
+                             ) is None
+
+            assert os.access(test_dir_old_sshfs_file_path, os.F_OK) is False
+            assert os.access(test_dir_new_sshfs_file_path, os.F_OK)
+            assert os.access(test_dir_old_xrosfs_file_path, os.F_OK) is False
+            assert os.access(test_dir_new_xrosfs_file_path, os.F_OK)
 
         # compare filename on sshfs/ and xrosfs/
         all_sshfs = [
