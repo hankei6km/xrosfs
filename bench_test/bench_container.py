@@ -4,6 +4,7 @@
 # Licensed under the MIT License. See LICENSE.txt in the project root.
 
 import os
+import re
 # from subprocess import Popen
 import shlex
 import time
@@ -67,8 +68,10 @@ class Bench:
 
     sshfs_mount_retry_lim = 10
     sshfs_mount_retry_interval = 3
+    sshfs_mount_opts_var_name = 'XROSFS_BENCH_SSHFS_MOUNT_OPTS'
     xrosfs_mount_retry_lim = 10
     xrosfs_mount_retry_interval = 3
+    xrosfs_mount_opts_var_name = 'XROSFS_BENCH_XROSFS_MOUNT_OPTS'
 
     def __enter__(self):
         return self
@@ -109,21 +112,36 @@ class Bench:
     def stop(self):
         self.container.stop()
 
+    def _get_mount_opts_from_env(self, var_name):
+        ret = []
+        if var_name in os.environ:
+            opts = [
+                re.sub('^ | $', '', i)
+                for i in os.environ[var_name].split('-o') if i != ''
+            ]
+            for i in opts:
+                ret.append('-o')
+                ret.append(i)
+
+        return ret
+
     def mount_sshfs(self, user, server_path, mountpoint, passwd=''):
+        opts = [
+            '-o',
+            'StrictHostKeyChecking=no',
+            '-o',
+            'UserKnownHostsFile=/dev/null',
+            '-o',
+            'allow_other',
+            '-o',
+            'password_stdin'
+        ] + self._get_mount_opts_from_env(self.sshfs_mount_opts_var_name)
         srv_ip = self.get_container_ip_address()
         echo_cmd = ['echo',
                     passwd] if passwd else []
         mnt_cmd = ['sshfs',
-                   '-o',
-                   'StrictHostKeyChecking=no',
-                   '-o',
-                   'UserKnownHostsFile=/dev/null',
-                   '-o',
-                   'allow_other',
-                   '-o',
-                   'password_stdin',
                    user + '@' + srv_ip + ':' + server_path,
-                   mountpoint]
+                   mountpoint] + opts
         cmd = ' '.join([shlex.quote(i) for i in echo_cmd]) + \
             '|' + \
             ' '.join([shlex.quote(i) for i in mnt_cmd])
@@ -143,7 +161,7 @@ class Bench:
             'xrosfs',
             user + '@' + self.container.name + ':' + server_path,
             mountpoint
-        ]
+        ] + self._get_mount_opts_from_env(self.xrosfs_mount_opts_var_name)
         cmd = ' '.join([shlex.quote(i) for i in tmp])
 
         retry_cnt = 0

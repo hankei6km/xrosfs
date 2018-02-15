@@ -27,6 +27,11 @@ pytest のオプションを指定.
 # ./bootstrap.sh --pytest-opts '-x'
 ```
 
+mount オプションを指定.
+```
+# XROSFS_BENCH_XROSFS_MOUNT_OPTS="-o umask=0002" XROSFS_BENCH_SSHFS_MOUNT_OPTS="-o umask=0002" ./bootstrap.sh
+```
+
 コンテナのイメージを指定.
 
 ```
