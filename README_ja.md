@@ -1,5 +1,7 @@
 # XrosFS
 
+[![Build Status](https://travis-ci.org/hankei6km/xrosfs.svg?branch=master)](https://travis-ci.org/hankei6km/xrosfs)
+
 XrosFS は稼働中の Docker コンテナのファイルシステムを FUSE 経由でマウントするツールです.
 
 * コンテナ側へ追加のエージェント等をインストールする必要あはりません. `docker exec` が許可されていていれば利用できます.

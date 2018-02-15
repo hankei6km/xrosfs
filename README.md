@@ -1,5 +1,7 @@
 # XrosFS
 
+[![Build Status](https://travis-ci.org/hankei6km/xrosfs.svg?branch=master)](https://travis-ci.org/hankei6km/xrosfs)
+
 Mount a Running Docker Container File Sytem via FUSE.
 
 * No requirement to install additional agents to container side. it's only required to have permitted to `docker exec` command.
