@@ -136,6 +136,9 @@ class TestConSehll():
             'which': {
                 'path': '/bin/which',
             },
+            'umask': {
+                'path': 'umask'  # function
+            },
             'exec': {
                 'path': 'exec'  # function
             },

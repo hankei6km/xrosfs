@@ -43,6 +43,7 @@ Pass `user@container1:/` to xrosfs, if you want to connect as other users.
 * Can't access to file that had `\n` included filename.
 * Bad response time in operates.
 * Some operations methods are not full implemented yet(`flush(fsync)` `utimens` etc.).
+* Using default umask value from local system value, when not pass `umask` option(`mkdir foo` resutls of sshfs and xrosfs are different, when local umask=0002 server umask=0022).
 
 
 ## License

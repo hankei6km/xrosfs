@@ -13,7 +13,7 @@ from docker import errors
 def main(argv=sys.argv[1:]):
     import os
     from fuse import FUSE
-    from .args import parse
+    from .args import (parse, set_umask)
     from .conshell import ConShell
     from .cmdbuilder import CmdBuilder
 
@@ -47,6 +47,10 @@ def main(argv=sys.argv[1:]):
         # build fsname str(ie 'root@xros-bench:path/to')
         fsname = (mount_args.user if mount_args.user != '' else '') + \
             mount_args.container + ':' + mount_args.server_path
+
+        # set merged(local + container) default umask into
+        # mount_opts['umask].
+        set_umask(shell, mount_args.mount_opts)
 
         FUSE(XrosFS(shell, cmd_builder, server_path),
              mount_args.mountpoint,

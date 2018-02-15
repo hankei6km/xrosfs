@@ -40,6 +40,7 @@ $ xrosfs container1:/ ~/mnt
 * 改行を含むファイル名を扱えません.
 * 動作が超絶遅いです.
 * いくつかの操作メソッドは完全には実装されていません(`flush(fsync)` `utimens` 等).
+* `umask` オプションが指定されない場合は、ローカル側の umask 値が使用されます(ローカルの umask が `0002` で サーバーが `0022` だった場合、sshfs と xrosfs の `mkdir foo`の結果は異なります).
 
 
 ## License

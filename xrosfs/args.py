@@ -33,7 +33,12 @@ try:
 except pkg_resources.DistributionNotFound:
     None
 
-acceptable_mount_opts = ['allow_other', 'default_permissions', 'debug']
+acceptable_mount_opts = [
+    'allow_other',
+    'default_permissions',
+    'debug',
+    'umask'
+]
 
 
 # https://stackoverflow.com/questions/41008269/python-argparse-assertionerror-from-metavar-userhostfile
@@ -152,6 +157,38 @@ def parse_opts(opts):
     return ret
 
 
+def set_umask(shell, opts):
+    if 'umask' in opts:
+        # umask specified.
+        # passthrough opt.
+        None
+    # else:
+    #     # Disable flollowing code.
+    #
+    #     # get local umask
+    #     local_umask = os.umask(0)
+    #     os.umask(local_umask)
+
+    #     # get container umask
+    #     res = shell.entry(['umask'])
+    #     if res.errno == 0:
+    #         container_umask = res.stdout
+    #     else:
+    #         raise RuntimeError(
+    #             'could get umask from container {errno}: {stderr}'.format(
+    #                 errno=res.errno,
+    #                 stderr=res.stderr
+    #             )
+    #         )
+
+    #     # merge
+    #     umask = local_umask | int(container_umask, 8)
+    #     if umask > local_umask:
+    #         opts['umask'] = '{0:04o}'.format(umask)
+    #         # opts['umask'] = container_umask
+    #         # os.umask(umask)
+
+
 def parse(argv):
     args = parser.parse_args(argv)
 
@@ -164,6 +201,11 @@ def parse(argv):
     # set debgu option by '-d'.
     if args.debug:
         mount_opts['debug'] = True
+
+    # set default umsk, if no set `-o umask`.
+    # default value need to merge remote(container default value),
+    # therefore, `set umask` later(in `__init__.py`).
+    # set_umask(mount_opts)
 
     return ArgsResult(
         foreground=args.foreground,

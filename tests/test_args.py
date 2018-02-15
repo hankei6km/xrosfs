@@ -138,3 +138,13 @@ class TestArgs():
             'allow_other': 'foo',
             'default_permissions': False
         }
+
+        mount_args = parse([
+            'user@container:path/to', '/mnt',
+            '-o', 'umask=0022',
+            '--opts', 'allow_other=foo'
+        ])
+        assert mount_args.mount_opts == {
+            'allow_other': 'foo',
+            'umask': '0022'
+        }
